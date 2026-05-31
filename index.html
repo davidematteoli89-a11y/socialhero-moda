@@ -829,18 +829,20 @@
   const NUM_VIDS = 6;
   function togglePlay(i) {
     const vid = document.getElementById('vid'+i);
-    const overlay = document.getElementById('vo'+i);
+    const wrap = document.getElementById('vw'+i);
     if (vid.paused) {
       for (let j = 0; j < NUM_VIDS; j++) {
-        if (j !== i) { document.getElementById('vid'+j).pause(); document.getElementById('vo'+j).style.opacity = '1'; }
+        if (j !== i) {
+          document.getElementById('vid'+j).pause();
+          document.getElementById('vw'+j).classList.remove('playing');
+        }
       }
       vid.muted = true;
-      document.getElementById('vm'+i).textContent = '🔇';
       vid.play();
-      overlay.style.opacity = '0';
+      wrap.classList.add('playing');
     } else {
       vid.pause();
-      overlay.style.opacity = '1';
+      wrap.classList.remove('playing');
     }
   }
   function toggleMute(i) {
