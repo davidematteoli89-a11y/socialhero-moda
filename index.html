@@ -112,6 +112,22 @@
     }
     .hero-cta:hover { transform: scale(1.05); box-shadow: 0 0 30px rgba(0,200,255,0.5); }
 
+    /* ─── SHARED ─── */
+    .container { max-width: 1160px; margin: 0 auto; padding: 0 24px; }
+    .section-eyebrow {
+      font-family: 'Barlow Condensed', sans-serif;
+      font-size: 0.78rem; font-weight: 700; letter-spacing: 3px;
+      color: var(--cyan); text-transform: uppercase; margin-bottom: 12px;
+    }
+    .section-title {
+      font-family: 'Barlow Condensed', sans-serif;
+      font-weight: 900; text-transform: uppercase;
+      font-size: clamp(2.2rem, 5vw, 3.4rem);
+      line-height: 1.0; margin-bottom: 18px;
+    }
+    .section-title .cyan { color: var(--cyan); }
+    .section-sub { color: var(--gray); font-size: 1.05rem; max-width: 580px; margin-bottom: 56px; line-height: 1.7; }
+
     /* ─── SERVICES ─── */
     #servizi { padding: 100px 0; }
     .services-grid {
@@ -663,7 +679,7 @@
     <div class="about-inner">
       <div class="about-text">
         <div class="section-eyebrow">Chi sono</div>
-        <h2>Un freelance.<br>La forza di<br><span class="cyan">un'agenzia.</span></h2>
+        <h2 class="section-title">Un freelance.<br>La forza di<br><span class="cyan">un'agenzia.</span></h2>
         <p>Mi chiamo Filippo. Lavoro come freelance, ma non nel modo in cui lo immagini: ogni progetto viene gestito con la stessa struttura, gli stessi strumenti e la stessa cura di un'agenzia — senza i costi e i tempi morti che ne derivano.</p>
         <p>Strategia, contenuti, campagne, newsletter, lead generation: tutto sotto un unico punto di contatto, senza passaggi tra reparti, senza dispersioni. Parli con chi lavora davvero sul tuo progetto — ogni giorno.</p>
         <p>Ho costruito sistemi digitali per aziende che partivano da zero e oggi ricevono richieste da buyer in USA, Brasile ed Europa ogni settimana. Il metodo è rodato, i risultati sono misurabili.</p>
