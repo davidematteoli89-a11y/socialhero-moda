@@ -859,8 +859,8 @@
     const wasPaused = document.getElementById('vid'+i).paused;
     const fsVid = document.getElementById('vfs-video');
     fsVid.src = src;
-    fsVid.muted = false;
-    document.getElementById('vfs-mute').textContent = '🔊';
+    fsVid.muted = true;
+    document.getElementById('vfs-mute').textContent = '🔇';
     document.getElementById('vfs-overlay').classList.add('open');
     document.body.style.overflow = 'hidden';
     fsVid.play();
