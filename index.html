@@ -238,48 +238,45 @@
     /* ─── VIDEO GRID ─── */
     .video-section { background: var(--navy2); }
     .video-grid {
-      display: grid; grid-template-columns: repeat(3, 1fr);
-      gap: 12px; margin-top: 40px;
+      display: grid; grid-template-columns: repeat(3, 1fr); gap: 14px; margin-top: 40px;
+    }
+    @media (max-width: 760px) {
+      .video-grid { grid-template-columns: repeat(2, 1fr); }
+      .video-wrap:last-child { display: none; }
     }
     .video-wrap {
-      aspect-ratio: 9/16; border-radius: 10px; overflow: hidden;
-      position: relative; background: #000; cursor: pointer;
+      position: relative; border-radius: 14px; overflow: hidden;
+      border: 1.5px solid rgba(0,200,255,0.1);
+      background: #000; aspect-ratio: 9/16; cursor: pointer;
+      transition: border-color 0.2s, box-shadow 0.2s;
     }
+    .video-wrap:hover { border-color: rgba(0,200,255,0.4); box-shadow: 0 0 24px rgba(0,200,255,0.1); }
     .video-wrap video { width: 100%; height: 100%; object-fit: cover; display: block; }
-    .v-overlay {
-      position: absolute; inset: 0;
+    .video-controls {
+      position: absolute; bottom: 0; left: 0; right: 0;
+      padding: 10px 10px 12px;
+      background: linear-gradient(transparent, rgba(0,0,0,0.75));
+      display: flex; align-items: center; justify-content: space-between; gap: 6px;
+    }
+    .btn-icon {
+      background: rgba(255,255,255,0.18); border: none; cursor: pointer;
+      border-radius: 50%; width: 36px; height: 36px;
       display: flex; align-items: center; justify-content: center;
-      background: rgba(0,0,0,0); transition: background 0.2s;
+      backdrop-filter: blur(6px);
+      transition: background 0.15s; flex-shrink: 0;
     }
-    .video-wrap:hover .v-overlay { background: rgba(0,0,0,0.15); }
-    .v-play {
-      width: 52px; height: 52px; border-radius: 50%;
-      background: rgba(0,200,255,0.9); border: none; cursor: pointer;
+    .btn-icon:hover { background: rgba(0,200,255,0.5); }
+    .btn-icon svg { width: 16px; height: 16px; fill: white; }
+    .video-play-overlay {
+      position: absolute; inset: 0; bottom: 56px;
       display: flex; align-items: center; justify-content: center;
-      transition: transform 0.2s, background 0.2s;
+      background: rgba(0,0,0,0.05); transition: opacity 0.2s;
+      cursor: pointer;
     }
-    .v-play:hover { transform: scale(1.12); background: var(--cyan); }
-    .v-play svg { width: 20px; height: 20px; fill: var(--navy); margin-left: 3px; }
-    .v-controls {
-      position: absolute; bottom: 10px; right: 10px;
-      display: flex; gap: 8px;
-    }
-    .v-btn {
-      width: 34px; height: 34px; border-radius: 50%;
-      background: rgba(0,0,0,0.55); border: 1px solid rgba(255,255,255,0.2);
-      color: var(--white); font-size: 0.85rem; cursor: pointer;
-      display: flex; align-items: center; justify-content: center;
-      transition: background 0.15s;
-    }
-    .v-btn:hover { background: rgba(0,200,255,0.4); }
-    .v-fs-btn {
-      width: 34px; height: 34px; border-radius: 50%;
-      background: rgba(0,200,255,0.2); border: 1px solid rgba(0,200,255,0.4);
-      color: var(--cyan); font-size: 0.85rem; cursor: pointer;
-      display: flex; align-items: center; justify-content: center;
-      transition: background 0.15s;
-    }
-    .v-fs-btn:hover { background: rgba(0,200,255,0.4); }
+    .video-play-overlay svg { width: 52px; height: 52px; fill: rgba(255,255,255,0.9); filter: drop-shadow(0 2px 12px rgba(0,0,0,0.6)); transition: transform 0.15s; }
+    .video-play-overlay:hover svg { transform: scale(1.1); }
+    .video-wrap.playing .video-play-overlay { opacity: 0; pointer-events: none; }
+    .video-wrap.playing:hover .video-play-overlay { opacity: 0; }
 
     /* ─── FULLSCREEN VIDEO OVERLAY ─── */
     #vfs-overlay {
@@ -545,74 +542,50 @@
     <div class="video-grid">
       <div class="video-wrap" id="vw0">
         <video id="vid0" src="video/v1.mp4" poster="video/p1.jpg" loop playsinline preload="none"></video>
-        <div class="v-overlay" id="vo0">
-          <button class="v-play" onclick="togglePlay(0)">
-            <svg viewBox="0 0 24 24"><polygon points="5,3 19,12 5,21"/></svg>
-          </button>
-        </div>
-        <div class="v-controls">
-          <button class="v-btn" id="vm0" onclick="toggleMute(0)" title="Mute">🔇</button>
-          <button class="v-fs-btn" onclick="goFS(0)" title="Fullscreen">⛶</button>
+        <div class="video-play-overlay" onclick="togglePlay(0)"><svg viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg></div>
+        <div class="video-controls">
+          <button class="btn-icon" id="vm0" onclick="toggleMute(0)" title="Mute"><svg viewBox="0 0 24 24"><path d="M3 9v6h4l5 5V4L7 9H3zm13.5 3c0-1.77-1.02-3.29-2.5-4.03v8.05c1.48-.73 2.5-2.25 2.5-4.02z"/></svg></button>
+          <button class="btn-icon" onclick="goFS(0)" title="Fullscreen"><svg viewBox="0 0 24 24"><path d="M7 14H5v5h5v-2H7v-3zm-2-4h2V7h3V5H5v5zm12 7h-3v2h5v-5h-2v3zM14 5v2h3v3h2V5h-5z"/></svg></button>
         </div>
       </div>
       <div class="video-wrap" id="vw1">
         <video id="vid1" src="video/v2.mp4" poster="video/p2.jpg" loop playsinline preload="none"></video>
-        <div class="v-overlay" id="vo1">
-          <button class="v-play" onclick="togglePlay(1)">
-            <svg viewBox="0 0 24 24"><polygon points="5,3 19,12 5,21"/></svg>
-          </button>
-        </div>
-        <div class="v-controls">
-          <button class="v-btn" id="vm1" onclick="toggleMute(1)" title="Mute">🔇</button>
-          <button class="v-fs-btn" onclick="goFS(1)" title="Fullscreen">⛶</button>
+        <div class="video-play-overlay" onclick="togglePlay(1)"><svg viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg></div>
+        <div class="video-controls">
+          <button class="btn-icon" id="vm1" onclick="toggleMute(1)" title="Mute"><svg viewBox="0 0 24 24"><path d="M3 9v6h4l5 5V4L7 9H3zm13.5 3c0-1.77-1.02-3.29-2.5-4.03v8.05c1.48-.73 2.5-2.25 2.5-4.02z"/></svg></button>
+          <button class="btn-icon" onclick="goFS(1)" title="Fullscreen"><svg viewBox="0 0 24 24"><path d="M7 14H5v5h5v-2H7v-3zm-2-4h2V7h3V5H5v5zm12 7h-3v2h5v-5h-2v3zM14 5v2h3v3h2V5h-5z"/></svg></button>
         </div>
       </div>
       <div class="video-wrap" id="vw2">
         <video id="vid2" src="video/v3.mp4" poster="video/p3.jpg" loop playsinline preload="none"></video>
-        <div class="v-overlay" id="vo2">
-          <button class="v-play" onclick="togglePlay(2)">
-            <svg viewBox="0 0 24 24"><polygon points="5,3 19,12 5,21"/></svg>
-          </button>
-        </div>
-        <div class="v-controls">
-          <button class="v-btn" id="vm2" onclick="toggleMute(2)" title="Mute">🔇</button>
-          <button class="v-fs-btn" onclick="goFS(2)" title="Fullscreen">⛶</button>
+        <div class="video-play-overlay" onclick="togglePlay(2)"><svg viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg></div>
+        <div class="video-controls">
+          <button class="btn-icon" id="vm2" onclick="toggleMute(2)" title="Mute"><svg viewBox="0 0 24 24"><path d="M3 9v6h4l5 5V4L7 9H3zm13.5 3c0-1.77-1.02-3.29-2.5-4.03v8.05c1.48-.73 2.5-2.25 2.5-4.02z"/></svg></button>
+          <button class="btn-icon" onclick="goFS(2)" title="Fullscreen"><svg viewBox="0 0 24 24"><path d="M7 14H5v5h5v-2H7v-3zm-2-4h2V7h3V5H5v5zm12 7h-3v2h5v-5h-2v3zM14 5v2h3v3h2V5h-5z"/></svg></button>
         </div>
       </div>
       <div class="video-wrap" id="vw3">
         <video id="vid3" src="video/v4.mp4" poster="video/p4.jpg" loop playsinline preload="none"></video>
-        <div class="v-overlay" id="vo3">
-          <button class="v-play" onclick="togglePlay(3)">
-            <svg viewBox="0 0 24 24"><polygon points="5,3 19,12 5,21"/></svg>
-          </button>
-        </div>
-        <div class="v-controls">
-          <button class="v-btn" id="vm3" onclick="toggleMute(3)" title="Mute">🔇</button>
-          <button class="v-fs-btn" onclick="goFS(3)" title="Fullscreen">⛶</button>
+        <div class="video-play-overlay" onclick="togglePlay(3)"><svg viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg></div>
+        <div class="video-controls">
+          <button class="btn-icon" id="vm3" onclick="toggleMute(3)" title="Mute"><svg viewBox="0 0 24 24"><path d="M3 9v6h4l5 5V4L7 9H3zm13.5 3c0-1.77-1.02-3.29-2.5-4.03v8.05c1.48-.73 2.5-2.25 2.5-4.02z"/></svg></button>
+          <button class="btn-icon" onclick="goFS(3)" title="Fullscreen"><svg viewBox="0 0 24 24"><path d="M7 14H5v5h5v-2H7v-3zm-2-4h2V7h3V5H5v5zm12 7h-3v2h5v-5h-2v3zM14 5v2h3v3h2V5h-5z"/></svg></button>
         </div>
       </div>
       <div class="video-wrap" id="vw4">
         <video id="vid4" src="video/v5.mp4" poster="video/p5.jpg" loop playsinline preload="none"></video>
-        <div class="v-overlay" id="vo4">
-          <button class="v-play" onclick="togglePlay(4)">
-            <svg viewBox="0 0 24 24"><polygon points="5,3 19,12 5,21"/></svg>
-          </button>
-        </div>
-        <div class="v-controls">
-          <button class="v-btn" id="vm4" onclick="toggleMute(4)" title="Mute">🔇</button>
-          <button class="v-fs-btn" onclick="goFS(4)" title="Fullscreen">⛶</button>
+        <div class="video-play-overlay" onclick="togglePlay(4)"><svg viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg></div>
+        <div class="video-controls">
+          <button class="btn-icon" id="vm4" onclick="toggleMute(4)" title="Mute"><svg viewBox="0 0 24 24"><path d="M3 9v6h4l5 5V4L7 9H3zm13.5 3c0-1.77-1.02-3.29-2.5-4.03v8.05c1.48-.73 2.5-2.25 2.5-4.02z"/></svg></button>
+          <button class="btn-icon" onclick="goFS(4)" title="Fullscreen"><svg viewBox="0 0 24 24"><path d="M7 14H5v5h5v-2H7v-3zm-2-4h2V7h3V5H5v5zm12 7h-3v2h5v-5h-2v3zM14 5v2h3v3h2V5h-5z"/></svg></button>
         </div>
       </div>
       <div class="video-wrap" id="vw5">
         <video id="vid5" src="video/v6.mp4" poster="video/p6.jpg" loop playsinline preload="none"></video>
-        <div class="v-overlay" id="vo5">
-          <button class="v-play" onclick="togglePlay(5)">
-            <svg viewBox="0 0 24 24"><polygon points="5,3 19,12 5,21"/></svg>
-          </button>
-        </div>
-        <div class="v-controls">
-          <button class="v-btn" id="vm5" onclick="toggleMute(5)" title="Mute">🔇</button>
-          <button class="v-fs-btn" onclick="goFS(5)" title="Fullscreen">⛶</button>
+        <div class="video-play-overlay" onclick="togglePlay(5)"><svg viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg></div>
+        <div class="video-controls">
+          <button class="btn-icon" id="vm5" onclick="toggleMute(5)" title="Mute"><svg viewBox="0 0 24 24"><path d="M3 9v6h4l5 5V4L7 9H3zm13.5 3c0-1.77-1.02-3.29-2.5-4.03v8.05c1.48-.73 2.5-2.25 2.5-4.02z"/></svg></button>
+          <button class="btn-icon" onclick="goFS(5)" title="Fullscreen"><svg viewBox="0 0 24 24"><path d="M7 14H5v5h5v-2H7v-3zm-2-4h2V7h3V5H5v5zm12 7h-3v2h5v-5h-2v3zM14 5v2h3v3h2V5h-5z"/></svg></button>
         </div>
       </div>
     </div>
@@ -855,10 +828,9 @@
   function toggleMute(i) {
     const vid = document.getElementById('vid'+i);
     vid.muted = !vid.muted;
-    document.getElementById('vm'+i).textContent = vid.muted ? '🔇' : '🔊';
     if (!vid.muted) {
       for (let j = 0; j < NUM_VIDS; j++) {
-        if (j !== i) { document.getElementById('vid'+j).muted = true; document.getElementById('vm'+j).textContent = '🔇'; }
+        if (j !== i) { document.getElementById('vid'+j).muted = true; }
       }
     }
   }
